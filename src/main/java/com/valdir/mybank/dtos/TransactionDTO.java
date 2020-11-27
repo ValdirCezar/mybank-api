@@ -5,10 +5,10 @@ import java.time.LocalDateTime;
 
 import com.valdir.mybank.domain.Transaction;
 
-public class TransactionDTO implements Serializable{
+public class TransactionDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Integer id;
 	private LocalDateTime dateOfTransaction;
 	private Boolean isItWithdraw;
@@ -16,6 +16,7 @@ public class TransactionDTO implements Serializable{
 	private Double valueOfTransaction;
 	private Double balanceBeforeTransaction;
 	private Double balanceAfterTransaction;
+	private String message;
 
 	public TransactionDTO() {
 		super();
@@ -30,6 +31,7 @@ public class TransactionDTO implements Serializable{
 		this.valueOfTransaction = obj.getValueOfTransaction();
 		this.balanceBeforeTransaction = obj.getBalanceBeforeTransaction();
 		this.balanceAfterTransaction = obj.getBalanceAfterTransaction();
+		this.message = obj.getMessage();
 	}
 
 	public Integer getId() {
@@ -86,6 +88,14 @@ public class TransactionDTO implements Serializable{
 
 	public void setBalanceAfterTransaction(Double balanceAfterTransaction) {
 		this.balanceAfterTransaction = balanceAfterTransaction;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }

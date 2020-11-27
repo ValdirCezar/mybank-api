@@ -1,5 +1,6 @@
 package com.valdir.mybank.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.valdir.mybank.domain.Transaction;
 import com.valdir.mybank.domain.User;
 import com.valdir.mybank.dtos.UserDTO;
+import com.valdir.mybank.repositories.TransactionRepository;
 import com.valdir.mybank.repositories.UserRepository;
 
 @Service
@@ -16,6 +18,9 @@ public class UserService {
 
 	@Autowired
 	private UserRepository repository;
+	
+	@Autowired
+	private TransactionRepository transactionRepository;
 
 	public List<User> findAll() {
 		return repository.findAll();
@@ -31,6 +36,18 @@ public class UserService {
 		return user.orElse(null);
 	}
 
+	public Transaction makeWithdrawal(User user, Double value) {
+		if(user.makeWithdrawal(value)) {
+			Transaction transaction =  new Transaction(null, LocalDateTime.now(), true, false, value, user.getBalance() + value, user.getBalance(), "Successful transaction", user);
+			repository.save(user);
+			transactionRepository.save(transaction);
+			return transaction;
+		} else {
+			Transaction transaction =  new Transaction(null, LocalDateTime.now(), true, false, value, user.getBalance(), user.getBalance(), "Error, transaction not aproved", user);
+			transactionRepository.save(transaction);
+			return transaction;
+		}
+	}
 
 	public UserDTO fromDTO(User obj) {
 		return new UserDTO(obj);
