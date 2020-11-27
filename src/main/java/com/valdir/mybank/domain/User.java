@@ -41,6 +41,24 @@ public class User implements Serializable {
 		this.balance = balance;
 	}
 
+	public boolean makeWithdrawal(Double valueOfWithdrawal ) {
+		if (this.getBalance() >= valueOfWithdrawal) {
+			this.setBalance(this.getBalance() - valueOfWithdrawal);
+		} else {
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean makeDeposit(Double deposit ) {
+		try {
+			this.setBalance(this.getBalance() + deposit);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
 	public Integer getId() {
 		return id;
 	}

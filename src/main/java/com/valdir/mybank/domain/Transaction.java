@@ -1,7 +1,7 @@
 package com.valdir.mybank.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Transaction implements Serializable {
@@ -18,7 +20,10 @@ public class Transaction implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Date dateOfTransaction;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy hh/MM/ss")
+	private LocalDateTime dateOfTransaction;
+	
 	private Boolean isItWithdraw;
 	private Boolean isItDeposit;
 	private Double valueOfTransaction;
@@ -33,7 +38,7 @@ public class Transaction implements Serializable {
 		super();
 	}
 
-	public Transaction(Integer id, Date dateOfTransaction, Boolean isItWithdraw, Boolean isItDeposit,
+	public Transaction(Integer id, LocalDateTime dateOfTransaction, Boolean isItWithdraw, Boolean isItDeposit,
 			Double valueOfTransaction, Double balanceBeforeTransaction, Double balanceAfterTransaction, User user) {
 		super();
 		this.id = id;
@@ -45,7 +50,7 @@ public class Transaction implements Serializable {
 		this.balanceAfterTransaction = balanceAfterTransaction;
 		this.user = user;
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -54,11 +59,11 @@ public class Transaction implements Serializable {
 		this.id = id;
 	}
 
-	public Date getDateOfTransaction() {
+	public LocalDateTime getDateOfTransaction() {
 		return dateOfTransaction;
 	}
 
-	public void setDateOfTransaction(Date dateOfTransaction) {
+	public void setDateOfTransaction(LocalDateTime dateOfTransaction) {
 		this.dateOfTransaction = dateOfTransaction;
 	}
 
