@@ -9,12 +9,14 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.valdir.mybank.domain.Transaction;
 import com.valdir.mybank.domain.User;
 import com.valdir.mybank.dtos.UserDTO;
 import com.valdir.mybank.services.UserService;
@@ -50,5 +52,17 @@ public class UserController {
 		obj = service.fromDTO(newObj);
 		return ResponseEntity.created(uri).build();
 	}
+	
+	@ApiOperation(value = "Return a UserDTO by id")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Success"),
+			@ApiResponse(code = 404, message = "Not Found")
+	})
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<User> findById(@PathVariable Integer id) {
+		User user = service.findById(id);
+		return ResponseEntity.ok().body(user);
+	}
+	
 
 }
