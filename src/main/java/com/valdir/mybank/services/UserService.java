@@ -19,8 +19,13 @@ public class UserService {
 		return repository.findAll();
 	}
 	
+	public User insert(UserDTO obj) {
+		User newObj = new User(null, obj.getName(), obj.getCpf(), obj.getLogin(), obj.getPassword(), obj.getBalance());
+		return repository.save(newObj);
+	}
+	
 	public UserDTO fromDTO(User obj) {
-		return new UserDTO(obj.getId(), obj.getName(), obj.getCpf(), obj.getLogin(), obj.getPassword(), obj.getBalance());
+		return new UserDTO(obj);
 	}
 	
 }

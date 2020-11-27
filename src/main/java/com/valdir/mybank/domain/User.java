@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 public class User implements Serializable {
@@ -19,7 +21,11 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	
+	@Column(unique = true)
 	private String cpf;
+	
+	@Column(unique = true)
 	private String login;
 	private String password;
 	private Double balance;
@@ -41,7 +47,7 @@ public class User implements Serializable {
 		this.balance = balance;
 	}
 
-	public boolean makeWithdrawal(Double valueOfWithdrawal ) {
+	public boolean makeWithdrawal(Double valueOfWithdrawal) {
 		if (this.getBalance() >= valueOfWithdrawal) {
 			this.setBalance(this.getBalance() - valueOfWithdrawal);
 		} else {
@@ -49,8 +55,8 @@ public class User implements Serializable {
 		}
 		return true;
 	}
-	
-	public boolean makeDeposit(Double deposit ) {
+
+	public boolean makeDeposit(Double deposit) {
 		try {
 			this.setBalance(this.getBalance() + deposit);
 		} catch (Exception e) {
