@@ -75,5 +75,17 @@ public class UserController {
 		Transaction transaction = service.makeWithdrawal(user, value);
 		return ResponseEntity.ok().body(transaction);
 	}
+	
+	@ApiOperation(value = "Make a deposit")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Success"),
+			@ApiResponse(code = 400, message = "BAD_REQUEST")
+	})
+	@PostMapping(value = "/{id}/deposit/{value}")
+	public ResponseEntity<Transaction> makeDeposit(@PathVariable Integer id, @PathVariable Double value) {
+		User user = service.findById(id);
+		Transaction transaction = service.makeDeposit(user, value);
+		return ResponseEntity.ok().body(transaction);
+	}
 
 }

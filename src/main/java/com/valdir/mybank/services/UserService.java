@@ -48,6 +48,19 @@ public class UserService {
 			return transaction;
 		}
 	}
+	
+	public Transaction makeDeposit(User user, Double value) {
+		if(user.makeDeposit(value)) {
+			Transaction transaction =  new Transaction(null, LocalDateTime.now(), false, true, value, user.getBalance() - value, user.getBalance(), "Successful transaction", user);
+			repository.save(user);
+			transactionRepository.save(transaction);
+			return transaction;
+		} else {
+			Transaction transaction =  new Transaction(null, LocalDateTime.now(), false, true, value, user.getBalance(), user.getBalance(), "Error, transaction not aproved", user);
+			transactionRepository.save(transaction);
+			return transaction;
+		}
+	}
 
 	public UserDTO fromDTO(User obj) {
 		return new UserDTO(obj);
